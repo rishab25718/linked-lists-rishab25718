@@ -40,16 +40,59 @@ public class IntegerLinkedList
         _head = NewHead;
     }
 
-    public bool Remove(v)
+    public bool Remove(int v)
     {
         if (_head == null)
         {
             return false;
         }
-        if (_head = v)
+        if (_head._value == v)
         {
            return true;
            _head = _head._next; 
+        }
+        var current = _head;
+        while (current._next != null && current._next._value !=v)
+        {
+            current = current._next;
+        }
+        if (current._next != null) //jump over
+        {
+            current._next = current._next._next;
+            return true;
+        }
+        return false;
+    }
+
+
+    public void Insert(int value, int index)
+    {
+        IntegerNode newNode = new IntegerNode(value);
+
+        if (index == 0)
+        {
+            newNode._next = _head;
+            _head = newNode;
+            return;
+        }
+        
+        IntegerNode current = _head;
+        int count = 0;
+        while(current != null && count < index)
+        {
+            current = current._next;
+            count++;
+        }
+
+        if (current == null)
+        {
+            Console.WriteLine("Index out of bounds");
+        }
+        
+        else
+        {
+            newNode._next = current._next;
+            current._next = newNode;
         }
     }
     public override string ToString()
