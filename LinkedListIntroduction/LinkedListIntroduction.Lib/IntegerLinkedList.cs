@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Transactions;
 using System.Xml;
 
 namespace LinkedListIntroduction.Lib;
@@ -94,6 +95,149 @@ public class IntegerLinkedList
             newNode._next = current._next;
             current._next = newNode;
         }
+    }
+
+    public void Join(IntegerLinkedList list)
+    {
+        if (list == null || list._head == null)
+        {
+            return;
+        }
+
+        if (_head == null)
+        {
+            _head = list._head;
+        }
+
+        IntegerNode current = _head;
+        while (current._next != null)
+        {
+            current = current._next;
+        }
+
+        current._next = list._head;
+    }
+
+
+    public bool Contains(int v)
+    {
+        if (_head == null)
+        {
+            return false;
+        }
+
+        IntegerNode current = _head;
+        while (current._value != v)
+        {
+            current = current._next;
+            if (current._value == v)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void RemoveDuplicates()
+    {
+        if (_head == null)
+        {
+            return;
+        }
+
+        IntegerNode current = _head;
+
+        while (current != null)
+        {
+            IntegerNode duplicateChecker = current._next;
+            while (duplicateChecker != null)
+            {
+                if (duplicateChecker == current)
+                {
+                    Remove(current._value);
+                }
+                duplicateChecker = duplicateChecker._next;
+            }
+
+            current = current._next;
+        }
+    }
+
+    public void MergeAlternating(IntegerLinkedList list)
+    {
+       if (list == null || list._head == null)
+        {
+            return;
+        }
+
+        if (_head == null)
+        {
+            _head = list._head;
+        }
+
+        int index = 1;
+
+        IntegerNode currentOtherList = list._head;
+
+        while (currentOtherList != null)
+        {
+            list.Remove(currentOtherList._value);
+
+            Insert(index, currentOtherList._value);
+
+            index = index + 2;
+            currentOtherList = list._head;
+            
+        }
+    }
+
+    public void Reverse()
+    {
+        if (_head == null)
+        {
+            return;
+        }
+
+        IntegerNode current = _head;
+        int index = 1;
+
+        IntegerNode currentTwo = _head;
+        int count = 0;
+        while (currentTwo != null)
+        {
+            currentTwo = currentTwo._next;
+            count = count + 1;
+        }
+
+        while (current != null)
+        {
+            Remove(current._value);
+            int value = current._value;
+            current = current._next;
+            Insert(count - index, value);
+            
+        }
+    }
+
+    public void SortedIntegerLinkedList()
+    {
+        IntegerLinkedList list = new IntegerLinkedList();
+
+        IntegerNode current = _head;
+        while (current != null)
+        {
+            int index = 0;
+            IntegerNode currentSorted = list._head;
+            while (currentSorted != null && currentSorted._value < current._value)
+            {
+                index = index + 1;
+                currentSorted = currentSorted._next;
+            }
+
+            list.Insert(index, current._value);
+
+            current  = current._next;
+        } 
     }
     public override string ToString()
     {
